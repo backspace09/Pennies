@@ -1,0 +1,17 @@
+zsh: corrupt history file /home/kali/.zsh_history
+┌──(kali㉿kali)-[~/Desktop/vpns]
+└─$ cd ~        
+                                                                                                                
+┌──(kali㉿kali)-[~]
+└─$ mv .zsh_history .zsh_history_bad
+                                                                                                                
+┌──(kali㉿kali)-[~]
+└─$ strings -eS .zsh_history_bad > .zsh_history                                    
+                                                                                                                
+┌──(kali㉿kali)-[~]
+└─$ fc -R .zsh_history
+
+------
+adding to hosts
+echo "10.129.136.91 unika.htb" | sudo tee -a /etc/hosts
+or vim /etc/hosts

